@@ -15,17 +15,17 @@ int main(){
 }
 
 void insertionSort(int arr[], int size){
-    int step;
-    for(step = 1; step < size; step++){ 
-        int key = arr[step]; 
+   int step;
+   for(step = 1; step < size; step++){
+        int key = arr[step];
         int j = step - 1;
 
-        while(key < arr[j] && j >=0 ){
+        while( j >= 0 && key < arr[j]){
             arr[j+1] = arr[j];
-            --j;
+            j--;
         }
         arr[j+1] = key;
-    }
+   }
 }
 
 /*
