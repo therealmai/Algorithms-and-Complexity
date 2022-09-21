@@ -1,31 +1,49 @@
+/*
+ * Notes:
+ * Shifting sort (like how you sort your cards)
+ * When to use - when the size of the list small
+ * Time Complexity - Best: O(n) Worst: O(n^2) Average: O(n^2)
+ * Space Complexity - O(1)
+ * In-place sort
+ * Stable sort
+ */
+
 #include<stdio.h>
 
 void insertionSort(int arr[], int size);
 
-int main(){
+void printArray(int arr[],int size){
+    int x;
 
-    int arr[] = {13,9,1,3,2,13}, x;
-    insertionSort(arr, 6);
-
-    for(x=0; x<6; x++){
+    for(x=0; x<size; x++){
         printf("%d ", arr[x]);
     }
+}
+
+int main(){
+    int size;
+
+    int arr[] = {5,6,8,9,1,2,5,0,6,8,6,4,3,0,5,4,7,6,9,2};
+    size = sizeof(arr)/sizeof(arr[0]);
+
+    insertionSort(arr, size);
+    printArray(arr, size);
 
     return 0;
 }
 
 void insertionSort(int arr[], int size){
-   int step;
-   for(step = 1; step < size; step++){
-        int key = arr[step];
-        int j = step - 1;
+  int step,x,key,temp;
+  for(step = 1; step<size; step++){
+    key = arr[step];
+    x = step - 1;
 
-        while( j >= 0 && key < arr[j]){
-            arr[j+1] = arr[j];
-            j--;
-        }
-        arr[j+1] = key;
-   }
+    while(key< arr[x] && x >= 0){
+      arr[x+1] = arr[x];
+      x--;
+    }
+    arr[x+1] = key;
+  }
 }
 
 /*
