@@ -1,28 +1,45 @@
-#include <stdio.h>
-#include <stdlib.h>
+/*
+	Stable algorithm
+	Out-of-place sorting
+	Divide and conquer algorithm
+	Comparison approach
+	recursive
+John von Neumann
+1945
+Time Complexity: O(n log n) in all cases
+Space Complexity : O(n)
+*/
 
-void merge(int A[], int L[], int R[], int Lsize, int Rsize){
-  int Andx = 0, Lndx, Rndx;
-  
-  for(Lndx = 0, Rndx = 0; Lndx < Lsize && Rndx < Rsize;){
-    if(L[Lndx] < R[Rndx]){
-      A[Andx++] = L[Lndx++];
-    } else {
-      A[Andx++] = R[Rndx++];
+#include<stdio.h>
+#include<stdlib.h>
+
+int recursion = 0;
+int mergeSort(int arr[], int size);
+void merge(int A[], int L[], int R[], int Lsize, int Rsize);
+
+void printArray(int arr[], int size){
+    int x;
+    for(x=0; x<size; x++){
+        printf("%d ", arr[x]);
     }
-  }
-  
-  //if right array finishes first
-  while(Lndx < Lsize){
-    A[Andx++] = L[Lndx++];
-  }
-  //if left array finishes first
-  while(Rndx < Rsize){
-    A[Andx++] = R[Rndx++];
-  }
+    printf("Recursion %d", recursion);
 }
 
+int main(){
+
+    int arr[] = {12,0,98,5,46,10,21};
+    int size = sizeof(arr)/sizeof(arr[0]);
+
+    mergeSort(arr, size);
+    printArray(arr, size);
+
+    return 0;
+}
+
+
+
 int mergeSort(int arr[], int size){
+    recursion++;
   if(size < 2)
     return 0;
     
@@ -46,16 +63,25 @@ int mergeSort(int arr[], int size){
   merge(arr, L, R, mid, size - mid);
 }
 
+void merge(int A[], int L[], int R[], int Lsize, int Rsize){
 
-int main() {
-  int arr[] = {3, 6, 4, 0, 2};
-  int size = sizeof(arr)/sizeof(arr[0]);
-  mergeSort(arr, size);
+    int Andx = 0, Lndx, Rndx;
 
-  //display sorted array
-  int x;
-  for(x = 0; x < size; x++){
-    printf("%d ", arr[x]);
-  }
-  return 0;
+    for(Lndx = 0, Rndx = 0; Lndx < Lsize && Rndx < Rsize;){
+        if(L[Lndx] < R[Rndx]){
+            A[Andx++] = L[Lndx++];
+        } else {
+            A[Andx++] = R[Rndx++];
+        }
+    }
+
+    //if right array finishes first
+    while(Lndx < Lsize){
+        A[Andx++] = L[Lndx++];
+    }
+  //if left array finishes first
+    while(Rndx < Rsize){
+        A[Andx++] = R[Rndx++];
+    }
+
 }
