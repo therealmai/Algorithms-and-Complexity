@@ -25,7 +25,7 @@ right = 2(parent) + 1
 
 #include<stdio.h>
 
-#define SIZE 6
+#define SIZE 20
 
 void heapSort(int arr[]);
 void heapify(int arr[], int n, int node);
@@ -33,7 +33,7 @@ void printArray(int arr[]);
 
 void main()
 {
-    int arr[] = {5,6,8,9,1,2};
+    int arr[] = {5,6,8,9,1,2,5,0,6,8,6,4,3,0,5,4,7,6,9,2};
     heapSort(arr);
     printArray(arr);
 }
