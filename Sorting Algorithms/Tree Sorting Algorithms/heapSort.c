@@ -11,123 +11,72 @@ left = 2(parent)
 right = 2(parent) + 1
 */
 
+/*
+ * Notes:
+ * Slightly slower than merge sort and quick sort on largest lists; think of an improved selection sort; recursive
+ * When to use - more efficient than elementary sorting algo; can be used to deal with priority trees
+ * Time Complexity - Best: O(n log n) Worst: O(n log n) Average: O(n log n)
+ * Space Complexity - O(1)
+ * In-place sort
+ * Unstable sort
+ * Comparison sort
+ * J. W. J. Williams (1964)
+ */
 
 #include<stdio.h>
 
-#define SIZE 8
-#define EMPTY 0
+#define SIZE 6
 
-typedef struct{
-    int Elem[SIZE];
-    int last;
-}Heap;
+void heapSort(int arr[]);
+void heapify(int arr[], int n, int node);
+void printArray(int arr[]);
 
-typedef Heap Tree;
-
-
-void initializeTree(Tree *T);
-void displayTree(Tree T);
-void populateHeap(Tree *T);
-void insert(Tree *T, int num);
-void heapSort(Tree *T);
-void heapify(Tree *T, int last, int parent);
-void swap (int *x, int *y);
-
-int main(){
-    Tree T;
-
-    initializeTree(&T);
-    populateHeap(&T);
-    insert(&T, 60);
-    heapSort(&T);
-    
-    return 0;
+void main()
+{
+    int arr[] = {5,6,8,9,1,2};
+    heapSort(arr);
+    printArray(arr);
 }
 
-void displayTree(Tree T){
-    int x;
-    if(T.last != -1){
-        for(x = 0; x<= T.last ; x++){
-            printf("%d, ", T.Elem[x]);
-        }
-        printf("\n");
-    } else {
-        printf("Heap is Empty\n");
+void heapSort(int arr[])
+{
+    int i, temp;
+    for(i = SIZE/2-1; i >= 0; i--) {
+        heapify(arr, SIZE, i);
+    }
+
+    for(i = SIZE-1; i > 0; i--) {
+        temp = arr[0];
+        arr[0] = arr[i];
+        arr[i] = temp;
+        heapify(arr, i, 0);
     }
 }
 
-
-void initializeTree(Tree *T){
-    int x;
-    for(x=0; x<SIZE; x++){
-        T->Elem[x] = EMPTY;
-
+void heapify(int arr[], int n, int node) // max heapify
+{
+    int largest = node, left = 2 * largest + 1, right = 2 * largest + 2, temp;
+    if(left < n && arr[left] > arr[largest]) {
+        largest = left;
     }
-    T->last = -1;
+    if(right < n && arr[right] > arr[largest]) {
+        largest = right;
+    }
+    if(largest != node) {
+        temp = arr[largest];
+        arr[largest] = arr[node];
+        arr[node] = temp;
+
+        heapify(arr, n, largest);
+    }
+
 }
 
-void populateHeap(Tree *T){
-    insert(T, 50);
-	insert(T, 30);
-	insert(T, 20);
-	insert(T, 15);
-	insert(T, 10);
-	insert(T, 8);
-	insert(T, 16);
-}
-
-// insert an element at lowest level, swap until x is root and POT property is satisfied
-void insert(Tree *T, int num){
-    int x, last, parent;
-    T->Elem[++T->last] = num;
-
-    if(T->last != EMPTY){
-        x = T->last;
-        parent = (x-1) /2;
-        while( x != EMPTY && num > T->Elem[parent]){ //Swap if the child is bigger than the parent
-            T->Elem[x] = T->Elem[parent];
-            x = parent;
-            parent = (x - 1) / 2;
-        }
-        T->Elem[x] = num;
+void printArray(int arr[])
+{
+    int i;
+    for(i = 0; i < SIZE; i++) {
+        printf("%d ", arr[i]);
     }
-}
-
-void heapSort(Tree *T){
-    int x;
-
-    for(x = T->last /2 - 1; x >= 0; x--){
-        heapify(T, T->last, x);
-
-        for(x= T->last-1; x>=0; x--){
-            swap(&T->Elem[0], &T->Elem[x]);
-            heapify(T, x, 0);
-        }
-    }
-}
-
-void heapify(Tree *T, int last, int parent){
-    int max = parent;
-    int leftChild = parent * 2 + 1;
-    int rightChild = parent * 2 + 2;
-
-    if(leftChild < last && T->Elem[leftChild] > T->Elem[max]){
-        max = leftChild;
-    }
-
-    if(rightChild < last && T->Elem[rightChild] > T->Elem[max]){
-        max = rightChild;
-    }
-
-    if(max != parent){
-        swap(&T->Elem[parent], &T->Elem[max]);
-
-        heapify(T, last, parent);
-    }
-}
-
-void swap (int *x, int *y){
-    int temp = *y;
-    *y = *x;
-    *x = temp;
+    printf("\n");
 }
