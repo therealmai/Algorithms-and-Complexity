@@ -1,3 +1,14 @@
+/*
+	Stable algorithm
+	Out-of-place sorting
+	Comparison approach
+Recursive
+Time Complexity : O(n) Best; O(n log n) Average; O(n^2) Worst;
+Space Complexity : O(n)
+2006; November 26, 1997, in an email that contains John Cohen proposing the J-Sort.
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 

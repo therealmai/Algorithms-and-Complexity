@@ -10,6 +10,9 @@ Recursive
                   Worst(Pivot least/greatest) : O(n^2)
 *Space Complexity: O(1) unstable partition
                    0(log n) tail recursion
+PREORDER
+if pivot is at first index = swap (High, pivot);
+if pivot is at last index = swap (low, pivot);
 */
 #include<stdio.h>
 #include<string.h>
