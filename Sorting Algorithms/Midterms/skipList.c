@@ -31,13 +31,7 @@ int main(){
 
 void initSkipList(SkipList *s)
 {
-    s->level++;
-    s->root[s->level-1] = (struct node*)malloc(sizeof(struct node));
-    s->root[s->level-1]->data = LOW;
-    s->root[s->level-1]->below = NULL;
-    s->root[s->level-1]->next = (struct node*)malloc(sizeof(struct node));
-    s->root[s->level-1]->next->data = MAX;
-     
+   
 }
 
 void insertNode(SkipList s, int elem)
