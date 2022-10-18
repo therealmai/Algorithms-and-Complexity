@@ -29,25 +29,27 @@ void populateList(SkipList *list, int arr[]);
 Node searchList(Node head, int data);
 void displayList(SkipList list);
 
-void main()
+int main()
 {
     srand(time(NULL));
     int arr[] = {3,2,1,4,5,7,6,8,9,0};
     SkipList list = {NULL, 0, 5};
 
     initSkipList(&list); // initialization
-    displayList(list);
-    printf("\n");
+    // displayList(list);
+    printf("Skiplist");
+    // printf("\n");
 
     populateList(&list, arr); // insertion
-    displayList(list);
+    // displayList(list);
 
-    printf("\n\n");
+    // printf("\n\n");
     Node get = searchList(list.head, 5); // search
-    printf("\ntest: %d\n", get != NULL ? get->data: -1);
+    // printf("\ntest: %d\n", get != NULL ? get->data: -1);
 
     deleteData(&(list.head), 5); // deletion
     displayList(list);
+    return 0;
 }
 
 void initSkipList(SkipList *list) // initialize a -2147483647 -> 2147483647 linked list
@@ -161,10 +163,10 @@ Node searchList(Node head, int data)
     }
 
     if(data < head->next->data) {  
-        printf("iterate "); 
+        // printf("iterate "); 
         searchList(head->below, data);
     } else if(data > head->next->data) {
-        printf("iterate "); 
+        // printf("iterate "); 
         searchList(head->next, data);
     } else {
         return head->next;
@@ -174,6 +176,7 @@ Node searchList(Node head, int data)
 
 void displayList(SkipList list)
 {
+
     Node trav1, trav2;
     for(trav1 = list.head; trav1 != NULL; trav1 = trav1->below) {
         printf("\n");
