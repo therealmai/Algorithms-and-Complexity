@@ -16,6 +16,8 @@ void populateTree(AVLTree *T, int data[]);
 void insertNodeAVL(AVLTree node, AVLTree *T);
 int balance(AVLTree T);
 int getHeight(AVLTree T);
+void leftRotation(AVLTree *T);
+void rightRotation(AVLTree *T);
 
 int main(){
 
@@ -87,5 +89,22 @@ int getHeight(AVLTree T){
     int left = getHeight(T->left);
     int right = getHeight(T->right);
     return (left > right) ? left+1 : right+1;
+}
+
+void leftRotation(AVLTree *T)
+{
+    AVLTree temp = (*T)->right;
+    AVLTree child = temp->left;
+    (*T)->right->left = *T;
+    (*T)->right = child;
+    (*T) = temp;
+}
+
+void rightRotation(AVLTree *T){
+    AVLTree temp = (*T)->left;
+    AVLTree child = temp->right;
+    (*T)->left->right = *T;
+    (*T)->left = child;
+    (*T) = temp;
 }
 
