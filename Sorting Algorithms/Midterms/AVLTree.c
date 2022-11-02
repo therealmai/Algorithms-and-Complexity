@@ -14,6 +14,8 @@ typedef struct node {
 void initTree(AVLTree *T);
 void populateTree(AVLTree *T, int data[]);
 void insertNodeAVL(AVLTree node, AVLTree *T);
+int balance(AVLTree T);
+int getHeight(AVLTree T);
 
 int main(){
 
@@ -42,5 +44,48 @@ void populateTree(AVLTree* T, int data[]){
 }
 
 void insertNodeAVL(AVLTree node, AVLTree *T){
-    return 0;
+    int balance;
+    if(*T == NULL){
+        *T = node;
+    }else{
+        if((*T)->data > node->data){
+            insertNodeAVL(node, &(*T)->left);
+        }else{
+            insertNodeAVL(node, &(*T)->right);
+        }
+    }
+
+    balance = getBalance(*T);
+
+    if(balance > 1 && node->data <= (*T)->left->data){
+        rightRotation(T);
+    } else if(balance > 1 && node->data > (*T)->left->data) {
+        leftRotation(&(*T)->left);
+        rightRotation(T);
+    } else if(balance < -1 && node->data > (*T)->right->data) {
+        leftRotation(node);
+    } else if(balance < -1 && node->data <= (*T)->right->data) {
+        rightRotation(&(*T)->right);
+        leftRotation(T);
+    }
 }
+
+int balance(AVLTree T){
+    if(T == NULL){
+        return -1;
+    }
+
+    return getHeight(T->left) - getHeight(T->right);
+}
+
+int getHeight(AVLTree T){
+
+    if(T == NULL){
+        return 0;
+    }
+
+    int left = getHeight(T->left);
+    int right = getHeight(T->right);
+    return (left > right) ? left+1 : right+1;
+}
+
