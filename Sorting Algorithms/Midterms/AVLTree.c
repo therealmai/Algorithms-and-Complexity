@@ -18,6 +18,7 @@ int balance(AVLTree T);
 int getHeight(AVLTree T);
 void leftRotation(AVLTree *T);
 void rightRotation(AVLTree *T);
+void displayTree(AVLTree T);
 
 int main(){
 
@@ -26,6 +27,7 @@ int main(){
 
     initTree(&T);
     populateTree(&T, data);
+    displayTree(T);
 
     return 0;
 }
@@ -106,5 +108,12 @@ void rightRotation(AVLTree *T){
     (*T)->left->right = *T;
     (*T)->left = child;
     (*T) = temp;
+}
+
+void displayTree(AVLTree T){
+    //PreOrder display
+    printf("%d", T->data);
+    displayTree(T->left);
+    displayTree(T->right);
 }
 
