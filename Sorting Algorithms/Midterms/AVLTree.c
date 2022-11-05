@@ -19,6 +19,7 @@ int getHeight(AVLTree T);
 void leftRotation(AVLTree *T);
 void rightRotation(AVLTree *T);
 void displayTree(AVLTree T);
+int findElem(AVLTree T, int elem);
 
 int main(){
 
@@ -27,6 +28,7 @@ int main(){
 
     initTree(&T);
     populateTree(&T, data);
+    findElem(T,6);
     displayTree(T);
 
     return 0;
@@ -117,5 +119,7 @@ void displayTree(AVLTree T){
     displayTree(T->right);
 }
 
-//
+int findElem(AVLTree T, int elem){
+
+}
 
