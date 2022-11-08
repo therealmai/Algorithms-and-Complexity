@@ -120,6 +120,15 @@ void displayTree(AVLTree T){
 }
 
 int findElem(AVLTree T, int elem){
-
+    int dataExist = 0;
+    if(T->data != elem){
+        dataExist = 1;
+    }
+    else if (T->data < elem){
+        findElem(T->right, elem);
+    }else{
+        findElem(T->left, elem);
+    }
+    return dataExist;
 }
 
