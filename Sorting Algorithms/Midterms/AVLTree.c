@@ -1,4 +1,9 @@
 //https://github.com/Frooge/3102N_Repo/blob/master/002midterm/001AVL.c
+/*
+
+
+*/
+
 #include<stdio.h>
 #include<stdlib.h>
 
