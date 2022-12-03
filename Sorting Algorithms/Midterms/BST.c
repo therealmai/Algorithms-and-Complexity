@@ -107,40 +107,40 @@ int isMember(BinaryTree BST, int data){
     return (BST != NULL) ? 1 : 0;
 }
 
-int deleteMin(BinaryTree* BST){
-    while((*BST) != NULL){
-        BST = &(*BST)->left;
-    }
-    int ret = (*BST)->data;
-    *BST = ((*BST)->right != NULL) ? (*BST)->right : NULL;
-    return ret;
+int deleteMin(BinaryTree *Tree){
+  BinaryTree *trav,temp;
+  int ret;
+  for(trav = Tree;(*trav)->left != NULL && *trav != NULL; trav = &(*trav)->left ){}
+  if(*trav != NULL){
+    temp = *trav;
+    ret = temp->data;
+    *trav = temp->right;
+    free(temp);
+  }
+  return ret;
 }
 
-void deleteElem(BinaryTree *BST, int num){
-    BinaryTree *temp;
-     while( (*BST) != NULL && (*BST)->data != num ){
-        if(num < (*BST)->data){
-            BST = &(*BST)->left;
+void deleteElem(BinaryTree *Tree, int data){
+    BinaryTree *trav, temp;
+    for (trav=Tree; *trav!=NULL && (*trav)->data != data;){
+        trav = (data < (*trav)->data) ? &(*trav)->left : &(*trav)->right ;
+    }
+    if(*trav!=NULL){ //element found
+        temp = *trav;
+        if((*trav)->left != NULL || (*trav)->right != NULL){ // node has 2 children -> replace with predecessor (choose ONLY 1 between deleteMin or deleteMax)
+             temp->data = deleteMin(&temp->right);
+        } else if((*trav)->left == NULL || (*trav)->right != NULL) {  //node has at most 1 child
+            *trav = (temp->left!=NULL) ? temp->left : temp->right;
+            free(temp);
         }else{
-            BST = &(*BST)->right;
-        }
-    }
-
-    if((*BST)->left != NULL && (*BST)->right != NULL){
-        (*BST)->data = deleteMin(&(*BST)->right);
-    }else if((*BST)->left != NULL){
-        *temp = *BST;
-        (*BST) = (*BST)->left;
-        free(temp);
-    }else if( (*BST)->right != NULL){
-        *temp = *BST;
-        (*BST) = (*BST)->right;
-        free(temp);
+        	*trav = NULL;
+        	free(temp);
+		}
     }else{
-        free(*BST);
-        *BST = NULL;
-    } 
+      printf("Element not found");  
+    }
 }
+
 
 int main(){
     BinaryTree BST;
@@ -151,7 +151,7 @@ int main(){
     printf("\n");
     result = isMember(BST, 4);
     printf("%d", result);
-    deleteElem(&BST, 7);
+    deleteElem(&BST, 5);
     printf("\n");
     preOrder(BST);
     return 0;
