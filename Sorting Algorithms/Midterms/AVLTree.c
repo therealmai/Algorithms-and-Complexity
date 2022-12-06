@@ -1,7 +1,10 @@
-//https://github.com/Frooge/3102N_Repo/blob/master/002midterm/001AVL.c
 /*
-
-
+Georgy Adelson-Velsky, Evgenii Landis
+1962
+-	Self-balancing
+-	Sorted Keys
+-	Right > Root > Left
+- O(log n) for Searching, Inserting, Deleting ; O(1) searching
 */
 
 #include<stdio.h>
@@ -19,7 +22,7 @@ typedef struct node {
 void initTree(AVLTree *T);
 void populateTree(AVLTree *T, int data[]);
 void insertNodeAVL(AVLTree node, AVLTree *T);
-int balance(AVLTree T);
+int getBalance(AVLTree T);
 int getHeight(AVLTree T);
 void leftRotation(AVLTree *T);
 void rightRotation(AVLTree *T);
@@ -33,8 +36,8 @@ int main(){
 
     initTree(&T);
     populateTree(&T, data);
-    findElem(T,6);
     displayTree(T);
+    findElem(T,6);
 
     return 0;
 }
@@ -45,16 +48,18 @@ void initTree(AVLTree *T){
 
 void populateTree(AVLTree* T, int data[]){
     int x;
+    AVLTree trav;
     for(x=0; x<SIZE; x++){
-        AVLTree newNode = (struct node*)malloc(sizeof(struct node));
+        AVLTree newNode = (struct node*)calloc(sizeof(struct node),1);
         newNode->data = data[x];
-        newNode->left = NULL;
-        newNode->right = NULL;
         insertNodeAVL(newNode, T);
+        trav = *T;
+        displayTree(trav);
+        printf("\n");
     }
 }
 
-void insertNodeAVL(AVLTree node, AVLTree *T){
+void insertNodeAVL(AVLTree node, AVLTree *T){ //Recursion
     int balance;
     if(*T == NULL){
         *T = node;
@@ -74,14 +79,14 @@ void insertNodeAVL(AVLTree node, AVLTree *T){
         leftRotation(&(*T)->left);
         rightRotation(T);
     } else if(balance < -1 && node->data > (*T)->right->data) {
-        leftRotation(node);
+        leftRotation(T);
     } else if(balance < -1 && node->data <= (*T)->right->data) {
         rightRotation(&(*T)->right);
         leftRotation(T);
     }
 }
 
-int balance(AVLTree T){
+int getBalance(AVLTree T){
     if(T == NULL){
         return -1;
     }
@@ -104,23 +109,29 @@ void leftRotation(AVLTree *T)
 {
     AVLTree temp = (*T)->right;
     AVLTree child = temp->left;
-    (*T)->right->left = *T;
+
+    temp->left = *T;
     (*T)->right = child;
     (*T) = temp;
 }
 
 void rightRotation(AVLTree *T){
+
     AVLTree temp = (*T)->left;
-    AVLTree child = temp->right;
-    (*T)->left->right = *T;
+    AVLTree child = (*T)->right;
+
+    temp->right = *T;
     (*T)->left = child;
     (*T) = temp;
 }
 
 void displayTree(AVLTree T){
-    //PreOrder display
-    printf("%d", T->data);
+    //Inorder
+    if(T == NULL){
+        return;
+    }
     displayTree(T->left);
+    printf("%d ", T->data);
     displayTree(T->right);
 }
 
