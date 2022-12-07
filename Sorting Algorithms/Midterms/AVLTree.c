@@ -30,7 +30,8 @@ int getHeight(AVLTree T);
 void leftRotation(AVLTree *T);
 void rightRotation(AVLTree *T);
 void displayTree(AVLTree T);
-AVLTree findElem(int data, AVLTree node);
+int findElem(int data, AVLTree node);
+void removeNode(AVLTree *T, int data);
 
 int main(){
 
@@ -40,8 +41,11 @@ int main(){
     initTree(&T);
     populateTree(&T, data);
     displayTree(T);
-    AVLTree check = findElem(2,T);
-    printf("\n%d ",getBalance(T));
+    printf("\n%d", findElem(2, T));
+    removeNode(&T, 21);
+    printf("\n");
+    displayTree(T);
+
 
     return 0;
 }
@@ -131,21 +135,66 @@ void displayTree(AVLTree T){
     if(T == NULL){
         return;
     }
-    displayTree(T->left);
     printf("%d ", T->data);
+    displayTree(T->left);
+
     displayTree(T->right);
 }
 
-AVLTree findElem(int data, AVLTree node)
+int findElem(int data, AVLTree node)
 {
-    if(node == NULL || node->data == data) {
-        return node;
-    } else {
-        if(node->data > data) {
-            findElem(data, node->left);
-        } else {
-            findElem(data, node->right);
+    int ret = 1;
+    AVLTree trav;
+    for(trav = node; trav != NULL && trav->data != data;){
+        if(trav->data < data){
+            trav = trav->right;
+        }else{
+            trav = trav->left;
         }
     }
+    return (trav != NULL) ? 1 : 0;
 }
 
+AVLTree findMin(AVLTree T){
+    while(T->left != NULL){
+        T = T->left;
+    }
+    return T;
+}
+
+void removeNode(AVLTree *T, int data){
+
+    if(*T == NULL){
+        return;
+    }else if ((*T)->data < data){
+        removeNode(&(*T)->right, data);
+    }else if ((*T)->data > data){
+        removeNode(&(*T)->left, data);
+    }else{
+        AVLTree temp = *T;
+        if(temp->left == NULL){
+            *T = temp->right;
+            free(temp);
+        }else if(temp->right == NULL){
+            *T = temp->left;
+            free(temp);
+        }else{
+           AVLTree min = findMin(temp->right);
+           (*T)->data = min->data;
+           removeNode(&(*T)->right, min->data);
+        }
+    }
+
+    int balance = getBalance(*T);
+     if(balance > 1 && getBalance((*T)->left) >= 0){
+        rightRotation(T);
+    } else if(balance > 1 && getBalance((*T)->left) < 0) {
+        leftRotation(&(*T)->left);
+        rightRotation(T);
+    } else if(balance < -1 && getBalance((*T)->right) >= 0) {
+        leftRotation(T);
+    } else if(balance < -1 && getBalance((*T)->right) < 0) {
+        rightRotation(&(*T)->right);
+        leftRotation(T);
+    }
+}
