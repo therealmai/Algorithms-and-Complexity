@@ -4,7 +4,10 @@ Georgy Adelson-Velsky, Evgenii Landis
 -	Self-balancing
 -	Sorted Keys
 -	Right > Root > Left
-- O(log n) for Searching, Inserting, Deleting ; O(1) searching
+- BEST CASE: O(log n) for Searching, Inserting, Deleting ; O(1) searching
+- Average Case: O(log n) in all cases
+- Worst Case: O(log n) in all cases
+- Space Complexity: O(n)
 */
 
 #include<stdio.h>
@@ -27,7 +30,7 @@ int getHeight(AVLTree T);
 void leftRotation(AVLTree *T);
 void rightRotation(AVLTree *T);
 void displayTree(AVLTree T);
-int findElem(AVLTree T, int elem);
+AVLTree findElem(int data, AVLTree node);
 
 int main(){
 
@@ -37,7 +40,8 @@ int main(){
     initTree(&T);
     populateTree(&T, data);
     displayTree(T);
-    findElem(T,6);
+    AVLTree check = findElem(2,T);
+    printf("\n%d ",getBalance(T));
 
     return 0;
 }
@@ -46,12 +50,31 @@ void initTree(AVLTree *T){
     *T = NULL;
 }
 
+void leftRotation(AVLTree *T)
+{
+    AVLTree temp = (*T)->right;
+    AVLTree child = temp->left;
+    temp->left = *T;
+    (*T)->right = child;
+    (*T) = temp;
+}
+
+void rightRotation(AVLTree *T){
+    AVLTree temp = (*T)->left;
+    AVLTree child = temp->right;
+    temp->right = *T;
+    (*T)->left = child;
+    (*T) = temp;
+}
+
 void populateTree(AVLTree* T, int data[]){
     int x;
     AVLTree trav;
     for(x=0; x<SIZE; x++){
-        AVLTree newNode = (struct node*)calloc(sizeof(struct node),1);
+        AVLTree newNode = (struct node*)malloc(sizeof(struct node));
         newNode->data = data[x];
+        newNode->left = NULL;
+        newNode->right = NULL;
         insertNodeAVL(newNode, T);
         trav = *T;
         displayTree(trav);
@@ -59,70 +82,48 @@ void populateTree(AVLTree* T, int data[]){
     }
 }
 
-void insertNodeAVL(AVLTree node, AVLTree *T){ //Recursion
-    int balance;
-    if(*T == NULL){
-        *T = node;
-    }else{
-        if((*T)->data > node->data){
-            insertNodeAVL(node, &(*T)->left);
-        }else{
-            insertNodeAVL(node, &(*T)->right);
+void insertNodeAVL(AVLTree newNode, AVLTree *node)
+{
+    if(*node == NULL) {
+        *node = newNode;
+    } else {
+        if((*node)->data > newNode->data) {
+            insertNodeAVL(newNode, &(*node)->left);
+        } else {
+            insertNodeAVL(newNode, &(*node)->right);
         }
     }
 
-    balance = getBalance(*T);
-
-    if(balance > 1 && node->data <= (*T)->left->data){
-        rightRotation(T);
-    } else if(balance > 1 && node->data > (*T)->left->data) {
-        leftRotation(&(*T)->left);
-        rightRotation(T);
-    } else if(balance < -1 && node->data > (*T)->right->data) {
-        leftRotation(T);
-    } else if(balance < -1 && node->data <= (*T)->right->data) {
-        rightRotation(&(*T)->right);
-        leftRotation(T);
+    int balance = getBalance(*node);
+    if(balance > 1 && newNode->data <= (*node)->left->data){
+        rightRotation(node);
+    } else if(balance > 1 && newNode->data > (*node)->left->data) {
+        leftRotation(&(*node)->left);
+        rightRotation(node);
+    } else if(balance < -1 && newNode->data > (*node)->right->data) {
+        leftRotation(node);
+    } else if(balance < -1 && newNode->data <= (*node)->right->data) {
+        rightRotation(&(*node)->right);
+        leftRotation(node);
     }
 }
 
-int getBalance(AVLTree T){
-    if(T == NULL){
+int getBalance(AVLTree node) {
+    if(node == NULL) {
         return -1;
     }
 
-    return getHeight(T->left) - getHeight(T->right);
+    return getHeight(node->left) - getHeight(node->right);
 }
 
-int getHeight(AVLTree T){
-
-    if(T == NULL){
+int getHeight(AVLTree node) {
+    if(node == NULL) {
         return 0;
     }
 
-    int left = getHeight(T->left);
-    int right = getHeight(T->right);
-    return (left > right) ? left+1 : right+1;
-}
-
-void leftRotation(AVLTree *T)
-{
-    AVLTree temp = (*T)->right;
-    AVLTree child = temp->left;
-
-    temp->left = *T;
-    (*T)->right = child;
-    (*T) = temp;
-}
-
-void rightRotation(AVLTree *T){
-
-    AVLTree temp = (*T)->left;
-    AVLTree child = (*T)->right;
-
-    temp->right = *T;
-    (*T)->left = child;
-    (*T) = temp;
+    int left = getHeight(node->left);
+    int right = getHeight(node->right);
+    return (left>right)?left+1:right+1;
 }
 
 void displayTree(AVLTree T){
@@ -135,16 +136,16 @@ void displayTree(AVLTree T){
     displayTree(T->right);
 }
 
-int findElem(AVLTree T, int elem){
-    int dataExist = 0;
-    if(T->data != elem){
-        dataExist = 1;
+AVLTree findElem(int data, AVLTree node)
+{
+    if(node == NULL || node->data == data) {
+        return node;
+    } else {
+        if(node->data > data) {
+            findElem(data, node->left);
+        } else {
+            findElem(data, node->right);
+        }
     }
-    else if (T->data < elem){
-        findElem(T->right, elem);
-    }else{
-        findElem(T->left, elem);
-    }
-    return dataExist;
 }
 
