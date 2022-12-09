@@ -7,7 +7,7 @@ Georgy Adelson-Velsky, Evgenii Landis
 - BEST CASE: O(log n) for Searching, Inserting, Deleting ; O(1) searching
 - Average Case: O(log n) in all cases
 - Worst Case: O(log n) in all cases
-- Space Complexity: O(n)
+- Space Complexity: O(n) in all cases
 */
 
 #include<stdio.h>
