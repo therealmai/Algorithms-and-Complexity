@@ -9,7 +9,8 @@ Edward Fredkin-1960
 Trie Time Complexity:
 O(K) in all cases where K is the length of string
 Space Complexity:
-O(1) in all cases
+O(1) in all access, searching and deletion
+O(k*m) in Insertion where K is the string length and m is the alphabet size
 */
 
 #include<stdio.h>
