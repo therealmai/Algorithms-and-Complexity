@@ -33,7 +33,8 @@ int main(){
     triePtr trie;
     initTrie(&trie);
     insertTrie(trie, "age");
-    // insertTrie(trie, "hello");
+    insertTrie(trie, "hello");
+    insertTrie(trie, "ages");
     
     printf("%d\n", searchWord(trie, "age"));
     deleteWord(&trie, "age", 0);
