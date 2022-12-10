@@ -1,7 +1,9 @@
 /*
-Early B.C
--	Substitution 
--	Letter Reversal
+Julius Caesar
+100 B.C
+-	Substitution
+-	Shift according to key count
+
 */
 
 #include<stdio.h>
