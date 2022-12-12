@@ -7,12 +7,13 @@ Time Complexity
 O(n2) - in all cases
 Space Complexity
 O(n2) + O(n) worst case
+test
 */
 
 #include<stdio.h>
 #include<stdlib.h>
 
 int main(){
-
+    
     return 0;
 }
