@@ -32,6 +32,17 @@ int rodCuttingMemoization(int price[], int length)
     return value;
 }
 
+int rodCutting(int price[], int length)
+{
+    int i, temp, value = 0;
+    for(i = 1; i <= length; i++) {
+        temp = price[i] + rodCutting(price, length - i);
+        value = value < temp ? temp : value;
+    }
+    return value;
+}
+
+
 int main(){
 
     int price[11] = {0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
