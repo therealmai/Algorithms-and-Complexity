@@ -10,6 +10,7 @@ O(n2) + O(n) worst case
 optimal = p(k) + optimal(i-k) where i is the max length and k is the iterating variable or current length we're dealing with
 p(k) gets price at position/length k
 base case: optimal(1) = 1
+
 */
 
 #include<stdio.h>
