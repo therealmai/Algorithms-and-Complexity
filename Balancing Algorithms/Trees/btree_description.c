@@ -26,4 +26,10 @@ Every page except root must have minimum [m/2] ceiling chilren = Min children = 
 Root must have at least 2 descendants
 All non leaf page will have a maximum keys (m-1) = Max keys = m-1
 All leaf page will contain at least cealing(m/2) -1 min keys = min keys = ceiling(m/2)-1
+
+Deletion
+Case 1: Direct removel in leaf node
+Case 2: If the node is not a leaf find the successor and swap it
+Case 3: Delete with redistribution must not be minimum find a node that will suffice the properties
+Case 4: Delete with concatenation just combine the root and the 2 nodes if no minimum siblings found
 */
