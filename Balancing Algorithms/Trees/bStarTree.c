@@ -13,4 +13,7 @@ Time Complexity
 must be same with B trees
 Space Complexity
 must be same with B trees
+
+formula for splitting = floor((2m-1)/3)
+must be 2/3 full of keys
 */
