@@ -7,7 +7,7 @@ P.F. Windly, A.D. Booth, A.J.T Colin, T.N. Hibbard
 
 Time Complexity
 Best = O(1) For Accessing, Searching, Inserting; O(log n) for deleting
-Average = O(log n) in all cases
+Average = O(log2 n) in all cases
 Worst = O(n) in all cases; skewed
 
 Space Complexity

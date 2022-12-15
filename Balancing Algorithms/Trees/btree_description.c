@@ -8,7 +8,7 @@ Max = M Children
 -	Leaves not connected
 Bottom Up approach
 Time Complexity:
-O(logm n) in all cases
+O(logm n) in all cases where m is the order
 Space Complexity
 O(n)
 
@@ -21,8 +21,8 @@ Splitting and Promotion for Insertion
 Redistribution and Concatenation for Deletion
 
 Ceiling or floor
-Every page has a max descendants given = Max
-Every page except root must have minimum [m/2] ceiling chilren = Min children = ceiling(m/2)
+Every page has a max descendants/order given = Max
+Every page except root must have minimum [m/2] ceiling chilren = Min children/order = ceiling(m/2)
 Root must have at least 2 descendants
 All non leaf page will have a maximum keys (m-1) = Max keys = m-1
 All leaf page will contain at least cealing(m/2) -1 min keys = min keys = ceiling(m/2)-1
