@@ -17,4 +17,8 @@ O(log n) in all cases
 Space Complexity
 O (n)
 
+
+Deletion
+Case 1: delete leaf node
+Case 2: Delete an exact minimum number of keys
 */
