@@ -23,9 +23,9 @@ Redistribution and Concatenation for Deletion
 Ceiling or floor
 Every page has a max descendants/order given = Max
 Every page except root must have minimum [m/2] ceiling chilren = Min children/order = ceiling(m/2)
-Root must have at least 2 descendants
+Root must have at least 2 descenfgl/dants
 All non leaf page will have a maximum keys (m-1) = Max keys = m-1
-All leaf page will contain at least cealing(m/2) -1 min keys = min keys = ceiling(m/2)-1
+All leaf page will contain at least ceiling(m/2) -1 min keys = min keys = ceiling(m/2)-1
 
 Deletion
 Case 1: Direct removel in leaf node
