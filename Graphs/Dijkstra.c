@@ -21,12 +21,11 @@ void initGraph(Graph C){
 }
 
 int minimum(Vertex *D, Vertex *A){
-    int x,y, min, ret;
+    int x,y, min=SENTINEL, ret;
 
     
     for(x=1; x<SIZE; x++){
         if( (*A)[x] == 1){
-          min = (*D)[x];
           if((*D)[x] < min){
             min = (*D)[x];
             ret = x;
@@ -64,7 +63,7 @@ void populateGraph(Graph C){
 }
 
 Vertex* dijkstra(Graph C, Vertex V){
-    int x, w;
+    int x, w, y;
     Vertex S = {1,0,0,0,0}; //Set of Visited Vertices
     Vertex *D = (Vertex*)calloc(sizeof(Vertex),1); //Contains the smallest paths for every vertices
     Vertex *A = NULL; //Difference for getting unvisited vertices
@@ -79,19 +78,26 @@ Vertex* dijkstra(Graph C, Vertex V){
     for(x=1; x<SIZE-1; x++){
         A = difference(V, S);
         w = minimum(D,A);
-        S[w] = 1; 
+        S[w] = 1;
+        (*A)[w] = 0;
 
+        for(y=1; y<SIZE; y++){
+            if((*A)[y] == 1){
+                (*D)[y] = ( (*D)[y] < ( (*D)[w] + C[w][y]) ) ? (*D)[y] : ( (*D)[w] + C[w][y]);
+            }
+        }
     }
-
+    return D;
 }
 
 int main(){
 
     Graph C;
     Vertex V = {1,1,1,1,1};
+    Vertex *D;
     initGraph(C);
     populateGraph(C);
-    dijkstra(C,V);
+    D = dijkstra(C,V);
 
     return 0;
 }
