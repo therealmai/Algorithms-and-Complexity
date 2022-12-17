@@ -89,12 +89,11 @@ void DFN(vertex start, Graph L){
     int x;
     vertex w;
     node trav;
-
     diffnum.vertices[start] = diffnum.count++;
-
     for(trav=L[start]; trav != NULL ; trav = trav->adjacent){
         w = trav->data;
-        if(mark.vertices[w] == UNVISITED){
+        if(diffnum.vertices[w] == UNVISITED){
+            
             DFN(w, L);
         }
     }
@@ -117,16 +116,16 @@ int main(){
     DFS(0,L);
     DFN(4,L);
 
-    display(mark);
+   display(mark);
     printf("\n");
     display(diffnum);
-    for(x=0; x<SIZE; x++){
-        if(mark.vertices[x] == UNVISITED){
-            DFS(x, L);
-        }
-    }
-    printf("\n");
-    display(mark);
+   for(x=0; x<SIZE; x++){
+       if(mark.vertices[x] == UNVISITED){
+           DFS(x, L);
+       }
+   }
+   printf("\n");
+   display(mark);
 
     return 0;
 }
