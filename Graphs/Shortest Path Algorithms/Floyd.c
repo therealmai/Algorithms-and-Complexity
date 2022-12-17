@@ -1,5 +1,5 @@
 /*
-
+time complexity = O(n^3)
 */
 #include<stdio.h>
 #include<stdlib.h>
