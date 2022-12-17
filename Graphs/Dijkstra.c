@@ -4,6 +4,7 @@ worst time complexity : O(n^2);
 
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #define SIZE 5
 #define SENTINEL 999
 
@@ -90,6 +91,13 @@ Vertex* dijkstra(Graph C, Vertex V){
     return D;
 }
 
+void display(Graph D){
+    int x;
+    for(x =0; x<SIZE; x++){
+        printf("%d ", (*D)[x]);
+    }
+}
+
 int main(){
 
     Graph C;
@@ -98,6 +106,7 @@ int main(){
     initGraph(C);
     populateGraph(C);
     D = dijkstra(C,V);
+    display(D);
 
     return 0;
 }
