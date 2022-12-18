@@ -8,17 +8,18 @@
 #define SEN 999
 
 typedef int Graph[SIZE][SIZE];
-    typedef int SET[SIZE];
+typedef int SET[SIZE];
 
 typedef struct {
     int u, v;
     int weight;
-}edge;
+} edge;
 
 typedef struct {
     edge edges[SIZE];
     int edgeCtr;
-}edgeList;
+    int cost;
+} edgeList;
 
 edgeList* Prim(Graph G, int vertex);
 
@@ -38,6 +39,7 @@ int main(){
     for(x=0; x < list->edgeCtr; x++){
         printf("(%d, %d, %d) ", list->edges[x].u, list->edges[x].v, list->edges[x].weight);
     }
+    printf("\nCost: %d", list->cost);
     
     return 0;
 }
@@ -63,7 +65,7 @@ void difference(SET set, SET visited, SET diff){
 edgeList* Prim(Graph G, int vertex){
     int u, v, x, y, z;
 
-    edgeList* list = calloc(sizeof(edgeList),1);
+    edgeList * list = (edgeList*)calloc(sizeof(edgeList), 1);
     SET set, visited, diff;
     // diff[vertex] = vertex;
 
@@ -96,6 +98,7 @@ edgeList* Prim(Graph G, int vertex){
         list->edges[z].u = u;
         list->edges[z].v = v;
         list->edges[z].weight = G[u][v];
+        list->cost += list->edges[z].weight;
         list->edgeCtr++;
         insertElemSet(visited, v);
     }
