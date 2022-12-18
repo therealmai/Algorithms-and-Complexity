@@ -4,13 +4,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 #define SIZE 6
-#define EMPTY -3
-#define UNVISITED -2
-#define VISITED -1
+#define EMPTY 0
 #define SEN 999
 
 typedef int Graph[SIZE][SIZE];
-typedef unsigned int SET[SIZE];
+    typedef int SET[SIZE];
 
 typedef struct {
     int u, v;
@@ -35,6 +33,11 @@ int main(){
     };
 
     edgeList* list = Prim(G, 0);
+
+    int x;
+    for(x=0; x < list->edgeCtr; x++){
+        printf("(%d, %d, %d) ", list->edges[x].u, list->edges[x].v, list->edges[x].weight);
+    }
     
     return 0;
 }
@@ -46,12 +49,55 @@ void initSet(SET set){
     }
 }
 
+void insertElemSet(SET visited, int vertex){
+    visited[vertex] = 1; 
+}
+
+void difference(SET set, SET visited, SET diff){
+    int x;
+    for(x=0; x<SIZE; x++){
+        diff[x] = set[x] & ~(visited[x]);
+    }
+}
+
 edgeList* Prim(Graph G, int vertex){
     int u, v, x, y, z;
 
-    edgeList *list = (edgeList)calloc(sizeof(edgeList),1);
+    edgeList* list = calloc(sizeof(edgeList),1);
     SET set, visited, diff;
-    
+    // diff[vertex] = vertex;
+
     initSet(set);
-    
+    initSet(visited);
+    insertElemSet(visited, vertex);
+
+    for(x=0; x<SIZE; x++){
+        insertElemSet(set, x);
+    }
+
+    for(z=0; z < SIZE-1; z++){
+        difference(set, visited, diff);
+        u = 0;
+        v = 0;
+        for(x=0; x < SIZE; x++){
+            if(!visited[x]){
+              continue;  
+            }
+            for(y=0; y < SIZE; y++){
+                if(!diff[y]){
+                    continue;
+                }
+                if(G[x][y] < G[u][v]){
+                    u = x;
+                    v = y;
+                }
+            }
+        }
+        list->edges[z].u = u;
+        list->edges[z].v = v;
+        list->edges[z].weight = G[u][v];
+        list->edgeCtr++;
+        insertElemSet(visited, v);
+    }
+    return list;
 }
